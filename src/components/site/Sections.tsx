@@ -128,7 +128,7 @@ export function Shop() {
           <h2 className={`${h2} mb-4`}>The shop.</h2>
           <p className="m-0 mb-6 text-lg text-lilac">Treats, toys, accessories and wellness products we'd give our own dogs.</p>
           <div className="grid max-w-[460px] grid-cols-2 gap-3">
-            {[["brand-fido-vite.png", "Fido Vite", "h-[96px]"], ["brand-adored-beast.png", "Adored Beast Apothecary", "h-[62px]"], ["brand-bark-bistro.png", "Bark Bistro", "h-[104px]"], ["brand-proactive-paws.jpg", "Proactive Paws", "h-[104px] rounded"]].map(([f, a, h]) => (
+            {[["brand-fido-vite.png", "Fido Vite", "h-[76px]"], ["brand-adored-beast.png", "Adored Beast Apothecary", "h-[42px]"], ["brand-bark-bistro.png", "Bark Bistro", "h-[92px]"], ["brand-proactive-paws.jpg", "Proactive Paws", "h-[96px] rounded"]].map(([f, a, h]) => (
               <span key={f} className="flex h-[136px] items-center justify-center rounded-md bg-white px-4"><img src={`/images/${f}`} alt={a} className={`${h} w-auto max-w-full object-contain`} /></span>
             ))}
           </div>

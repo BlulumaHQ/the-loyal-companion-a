@@ -7,16 +7,40 @@ const h2 = "m-0 font-display font-extrabold tracking-[-0.03em] leading-none text
 const SCALLOP = "M0 40 V20" + " a40 20 0 0 1 80 0".repeat(18) + " V40 Z";
 
 export function Header() {
+  const [open, setOpen] = useState(false);
+  const links = (
+    <>
+      <Link to="/grooming" className="no-underline" activeProps={{ className: "text-plum" }} onClick={() => setOpen(false)}>Grooming</Link>
+      <a href="/#shop" className="no-underline" onClick={() => setOpen(false)}>Shop &amp; Nutrition</a>
+      <Link to="/about" className="no-underline" activeProps={{ className: "text-plum" }} onClick={() => setOpen(false)}>The Crew</Link>
+      <Link to="/contact" className="no-underline" activeProps={{ className: "text-plum" }} onClick={() => setOpen(false)}>Visit</Link>
+    </>
+  );
   return (
-    <header className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-between gap-4 px-6 py-3">
-      <Link to="/" className="shrink-0"><img src="/images/logo.png" alt="The Loyal Companion" className="h-[76px] w-auto md:h-[112px]" /></Link>
-      <nav className="flex flex-wrap items-center gap-x-7 gap-y-3 text-[15px] font-semibold">
-        <Link to="/grooming" className="no-underline" activeProps={{ className: "text-plum" }}>Grooming</Link>
-        <a href="/#shop" className="no-underline">Shop &amp; Nutrition</a>
-        <Link to="/about" className="no-underline" activeProps={{ className: "text-plum" }}>The Crew</Link>
-        <Link to="/contact" className="no-underline" activeProps={{ className: "text-plum" }}>Visit</Link>
-        <a className="cta btn-plum no-underline inline-flex min-h-11 items-center gap-2 rounded-md px-[22px] py-3" href={BOOK} target="_blank" rel="noopener">Book a groom <Paw hover size={15} style={{ fill: "var(--sun)" }} /></a>
-      </nav>
+    <header className="relative z-30 bg-paper">
+      <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-3 px-4 py-2.5 md:px-6 md:py-3">
+        <Link to="/" className="shrink-0"><img src="/images/logo.png" alt="The Loyal Companion" className="h-[60px] w-auto md:h-[112px]" /></Link>
+        <nav className="hidden items-center gap-x-7 text-[15px] font-semibold md:flex">
+          {links}
+          <a className="cta btn-plum no-underline inline-flex min-h-11 items-center gap-2 rounded-md px-[22px] py-3" href={BOOK} target="_blank" rel="noopener">Book a groom <Paw hover size={15} style={{ fill: "var(--sun)" }} /></a>
+        </nav>
+        <div className="flex items-center gap-2 md:hidden">
+          <a className="cta btn-plum no-underline inline-flex h-11 items-center gap-1.5 rounded-md px-4 text-[14px] font-bold" href={BOOK} target="_blank" rel="noopener">Book <Paw size={13} style={{ fill: "var(--sun)" }} /></a>
+          <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label={open ? "Close menu" : "Open menu"} className="grid h-11 w-11 place-items-center rounded-md border border-ink/15">
+            <span className="relative block h-3.5 w-5">
+              <span className={`absolute left-0 h-0.5 w-5 bg-ink transition-all ${open ? "top-1.5 rotate-45" : "top-0"}`} />
+              <span className={`absolute left-0 top-1.5 h-0.5 w-5 bg-ink transition-opacity ${open ? "opacity-0" : ""}`} />
+              <span className={`absolute left-0 h-0.5 w-5 bg-ink transition-all ${open ? "top-1.5 -rotate-45" : "top-3"}`} />
+            </span>
+          </button>
+        </div>
+      </div>
+      {open && (
+        <nav className="absolute inset-x-0 top-full flex flex-col gap-1 border-y border-ink/10 bg-paper px-6 py-4 text-[17px] font-semibold shadow-lg md:hidden [&>*]:py-2.5">
+          {links}
+          <a href="tel:6085684558" className="no-underline text-plum">Call or text 608-568-4558</a>
+        </nav>
+      )}
     </header>
   );
 }
@@ -35,33 +59,34 @@ export function Hero() {
     if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = setInterval(() => setI((n) => (n + 1) % SLIDES.length), 5500);
     return () => clearInterval(t);
-  }, [paused]);
-  const go = (d: number) => setI((n) => (n + d + SLIDES.length) % SLIDES.length);
+  }, [paused, i]);
   return (
-    <section className="relative isolate h-[clamp(560px,82vh,780px)] w-full overflow-hidden bg-ink" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} aria-roledescription="carousel" aria-label="Our happy pups">
-      {SLIDES.map(([src, alt, pos], n) => (
-        <img key={src} src={src} alt={alt} loading={n ? "lazy" : "eager"} aria-hidden={n !== i}
-          className={`absolute inset-0 -z-10 h-full w-full object-cover transition-opacity duration-[1200ms] ${n === i ? "opacity-100" : "opacity-0"}`} style={{ objectPosition: pos }} />
-      ))}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(30,22,44,0.82)_0%,rgba(30,22,44,0.55)_45%,rgba(30,22,44,0.05)_80%)]" />
-      <div className="mx-auto flex h-full max-w-[1240px] flex-col justify-end px-6 pb-20 text-white">
-        <h1 className={`m-0 ${B} max-w-[820px] font-extrabold leading-[0.95] tracking-[-0.045em] text-[clamp(50px,9vw,96px)]`}>
+    <section className="relative isolate w-full overflow-hidden bg-plum md:h-[clamp(560px,82vh,780px)] md:bg-ink" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} aria-roledescription="carousel" aria-label="Our happy pups">
+      <div className="relative h-[54vh] min-h-[320px] max-h-[520px] md:absolute md:inset-0 md:h-full md:max-h-none">
+        {SLIDES.map(([src, alt, pos], n) => (
+          <img key={src} src={src} alt={alt} loading={n ? "lazy" : "eager"} aria-hidden={n !== i}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1200ms] ${n === i ? "opacity-100" : "opacity-0"}`} style={{ objectPosition: pos }} />
+        ))}
+        <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(30,22,44,0.82)_0%,rgba(30,22,44,0.55)_45%,rgba(30,22,44,0.05)_80%)] md:block" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent md:hidden" />
+        <div className="absolute bottom-4 left-5 z-10 flex items-center gap-2 md:left-auto md:bottom-10 md:right-[max(24px,calc((100vw-1240px)/2+24px))]" role="tablist" aria-label="Choose photo">
+          {SLIDES.map((_, n) => (
+            <button key={n} type="button" role="tab" onClick={() => setI(n)} aria-label={`Show photo ${n + 1}`} aria-selected={n === i} className="group py-3">
+              <span className={`block h-[3px] rounded-full transition-all duration-500 ${n === i ? "w-10 bg-white" : "w-5 bg-white/45 group-hover:bg-white/80"}`} />
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="relative mx-auto flex max-w-[1240px] flex-col px-6 pt-9 pb-12 text-white md:h-full md:justify-end md:pb-20 md:pt-0">
+        <h1 className={`m-0 ${B} max-w-[820px] font-extrabold leading-[0.95] tracking-[-0.045em] text-[clamp(42px,9vw,96px)]`}>
           More than<br />a groom.<br /><span className="text-sun">It's a feeling</span>
           <Paw size={62} style={{ fill: "var(--sun)", marginLeft: 8, transform: "rotate(18deg)", width: "0.6em", height: "0.6em" }} />
         </h1>
-        <p className="m-0 mt-6 max-w-[540px] text-[19px] text-white/90">Dog grooming, a hand-picked pet shop and real nutrition advice — under one roof at 55 W Main St, Platteville, Wisconsin.</p>
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <a className="cta btn-sun no-underline inline-flex items-center gap-2.5 rounded-md px-[30px] py-[18px] text-[17px] font-bold" href={BOOK} target="_blank" rel="noopener">Book a grooming <Paw hover size={18} style={{ fill: "var(--ink)" }} /></a>
-          <a href="tel:6085684558" className="no-underline rounded-md border-2 border-white px-7 py-4 text-[17px] font-bold !text-white">608-568-4558</a>
+        <p className="m-0 mt-5 max-w-[540px] text-[17px] text-white/90 md:mt-6 md:text-[19px]">Dog grooming, a hand-picked pet shop and real nutrition advice — under one roof at 55 W Main St, Platteville, Wisconsin.</p>
+        <div className="mt-7 flex flex-wrap items-center gap-3 md:mt-8">
+          <a className="cta btn-sun no-underline inline-flex items-center gap-2.5 rounded-md px-[26px] py-4 text-[16px] font-bold md:px-[30px] md:py-[18px] md:text-[17px]" href={BOOK} target="_blank" rel="noopener">Book a grooming <Paw hover size={18} style={{ fill: "var(--ink)" }} /></a>
+          <a href="tel:6085684558" className="no-underline rounded-md border-2 border-white px-6 py-[14px] text-[16px] font-bold !text-white md:px-7 md:py-4 md:text-[17px]">608-568-4558</a>
         </div>
-      </div>
-      <div className="absolute right-6 bottom-8 flex items-center gap-3 md:right-[max(24px,calc((100vw-1240px)/2+24px))]">
-        <button type="button" onClick={() => go(-1)} aria-label="Previous photo" className="grid h-11 w-11 place-items-center rounded-full border-2 border-white/70 text-xl text-white hover:bg-white/15">‹</button>
-        {SLIDES.map((_, n) => (
-          <button key={n} type="button" onClick={() => setI(n)} aria-label={`Show photo ${n + 1}`} aria-current={n === i}
-            className={`h-2.5 rounded-full transition-all ${n === i ? "w-8 bg-sun" : "w-2.5 bg-white/60"}`} />
-        ))}
-        <button type="button" onClick={() => go(1)} aria-label="Next photo" className="grid h-11 w-11 place-items-center rounded-full border-2 border-white/70 text-xl text-white hover:bg-white/15">›</button>
       </div>
     </section>
   );
@@ -168,8 +193,7 @@ export function Review() {
   }, [i]);
   const go = (d: number) => setI((n) => (n + d + REVIEWS.length) % REVIEWS.length);
   return (
-    <section className="relative overflow-hidden border-y-2 border-ink px-6 pt-20 pb-44" aria-roledescription="carousel" aria-label="Google reviews">
-      <img src="/images/paw-wave.svg" alt="" aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-3 h-[150px] w-full" />
+    <section className="relative overflow-hidden border-y-2 border-ink px-6 py-20" aria-roledescription="carousel" aria-label="Google reviews">
       <div className="relative mx-auto flex max-w-[1000px] items-center gap-4 md:gap-8">
         <button type="button" onClick={() => go(-1)} aria-label="Previous review" className="hidden h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-ink bg-paper text-2xl sm:grid">‹</button>
         <div className="min-w-0 flex-1 overflow-hidden">
@@ -223,10 +247,10 @@ export function Visit() {
 export function Footer() {
   return (
     <footer className="bg-plum px-6 py-8 text-sm text-lilac">
-      <div className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-between gap-4 [&_a]:!text-white">
+      <div className="mx-auto flex max-w-[1240px] flex-col items-center gap-4 text-center md:flex-row md:flex-wrap md:justify-between md:text-left [&_a]:!text-white">
         <img src="/images/lavender-badge.png" alt="Dogs · People · Community · Belonging" className="h-[104px] w-[104px] rounded-full bg-paper p-1" />
         <p className="m-0">© 2026 The Loyal Companion. Website by <a href="https://swiftlift.app" target="_blank" rel="noopener">SwiftLift</a></p>
-        <p className="m-0 flex flex-wrap gap-x-2">
+        <p className="m-0 flex flex-wrap justify-center gap-x-2">
           <a href="https://facebook.com/theloyalcompanionplatteville" target="_blank" rel="noopener">Facebook</a> ·
           <a href="https://instagram.com/theloyalcompanionplatteville" target="_blank" rel="noopener">Instagram</a> ·
           <a href="https://tiktok.com/@theloyalcompanionwi" target="_blank" rel="noopener">TikTok</a> ·

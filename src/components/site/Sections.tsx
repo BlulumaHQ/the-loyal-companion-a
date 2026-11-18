@@ -127,9 +127,9 @@ export function Shop() {
         <div>
           <h2 className={`${h2} mb-4`}>The shop.</h2>
           <p className="m-0 mb-6 text-lg text-lilac">Treats, toys, accessories and wellness products we'd give our own dogs.</p>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {[["brand-fido-vite.png", "Fido Vite", "h-[72px]"], ["brand-adored-beast.png", "Adored Beast Apothecary", "h-[46px]"], ["brand-bark-bistro.png", "Bark Bistro", "h-[76px]"], ["brand-proactive-paws.jpg", "Proactive Paws", "h-[76px] rounded"]].map(([f, a, h]) => (
-              <span key={f} className="flex h-[104px] items-center justify-center rounded-md bg-white px-3"><img src={`/images/${f}`} alt={a} className={`${h} w-auto max-w-full object-contain`} /></span>
+          <div className="grid max-w-[460px] grid-cols-2 gap-3">
+            {[["brand-fido-vite.png", "Fido Vite", "h-[96px]"], ["brand-adored-beast.png", "Adored Beast Apothecary", "h-[62px]"], ["brand-bark-bistro.png", "Bark Bistro", "h-[104px]"], ["brand-proactive-paws.jpg", "Proactive Paws", "h-[104px] rounded"]].map(([f, a, h]) => (
+              <span key={f} className="flex h-[136px] items-center justify-center rounded-md bg-white px-4"><img src={`/images/${f}`} alt={a} className={`${h} w-auto max-w-full object-contain`} /></span>
             ))}
           </div>
         </div>
@@ -168,8 +168,8 @@ export function Review() {
   }, [i]);
   const go = (d: number) => setI((n) => (n + d + REVIEWS.length) % REVIEWS.length);
   return (
-    <section className="relative overflow-hidden border-y-2 border-ink px-6 py-20" aria-roledescription="carousel" aria-label="Google reviews">
-      <img src="/images/paw-wave.svg" alt="" aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-1/2 -z-0 h-[240px] w-full -translate-y-1/2" />
+    <section className="relative overflow-hidden border-y-2 border-ink px-6 pt-20 pb-44" aria-roledescription="carousel" aria-label="Google reviews">
+      <img src="/images/paw-wave.svg" alt="" aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-3 h-[150px] w-full" />
       <div className="relative mx-auto flex max-w-[1000px] items-center gap-4 md:gap-8">
         <button type="button" onClick={() => go(-1)} aria-label="Previous review" className="hidden h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-ink bg-paper text-2xl sm:grid">‹</button>
         <div className="min-w-0 flex-1 overflow-hidden">

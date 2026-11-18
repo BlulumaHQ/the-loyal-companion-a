@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
+import type { Member } from "@/content/site";
 import { Paw, BOOK } from "./Paw";
 import { Header, Footer } from "./Sections";
 import {
@@ -23,7 +24,7 @@ export function PageShell({ children }: { children: ReactNode }) {
 
 function PageHero({ kicker, title, accent, intro }: { kicker: string; title: string; accent?: string; intro?: string }) {
   return (
-    <section className="trail px-6 pt-10 pb-16">
+    <section className="px-6 pt-10 pb-16">
       <div className="mx-auto max-w-[1240px]">
         <p className="m-0 mb-3 font-hand text-[28px] text-plum">{kicker}</p>
         <h1 className={`m-0 ${D} font-extrabold leading-[0.95] tracking-[-0.045em] text-[clamp(46px,9vw,88px)]`}>
@@ -39,7 +40,7 @@ function PageHero({ kicker, title, accent, intro }: { kicker: string; title: str
 
 function BookBand({ title, text }: { title: string; text: string }) {
   return (
-    <section className="trail-light bg-plum text-white">
+    <section className="bg-plum text-white">
       <svg viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true" className="block h-10 w-full bg-paper"><path d={SCALLOP} style={{ fill: "var(--plum)" }} /></svg>
       <div className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-between gap-6 px-6 pt-12 pb-16">
         <div>
@@ -110,7 +111,7 @@ export function GroomingPage() {
         </div>
       </section>
 
-      <section id="upgrades" className="trail-light bg-plum text-white">
+      <section id="upgrades" className="bg-plum text-white">
         <svg viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true" className="block h-10 w-full bg-paper"><path d={SCALLOP} style={{ fill: "var(--plum)" }} /></svg>
         <div className="mx-auto max-w-[1240px] px-6 pt-14 pb-20">
           <p className="m-0 max-w-[720px] text-lg text-lilac">{UPGRADES_INTRO}</p>
@@ -163,33 +164,47 @@ export function GroomingPage() {
 }
 
 /* ---------------- About ---------------- */
+function CrewCard({ m }: { m: Member }) {
+  const [open, setOpen] = useState(false);
+  const isLogo = m.img?.includes("logo-circle");
+  const [first, ...rest] = m.bio;
+  return (
+    <article className="flex flex-col overflow-hidden rounded-md border border-line bg-white">
+      <div className="aspect-[4/5] w-full bg-sand">
+        <img src={m.img} alt={isLogo ? "The Loyal Companion logo" : m.name}
+          className={`h-full w-full ${isLogo ? "object-contain p-10" : "object-cover"}`} />
+      </div>
+      <div className="flex flex-1 flex-col p-6">
+        <h3 className={`m-0 ${D} text-[34px] font-extrabold leading-none tracking-[-0.03em]`}>{m.name}</h3>
+        <p className="m-0 mt-2 font-hand text-[24px] leading-tight text-rust">{m.role}</p>
+        <div className="mt-3 text-[15px] text-ink-soft">
+          <p className="m-0">{first}</p>
+          {open && rest.map((p) => <p key={p.slice(0, 24)} className="m-0 mt-3">{p}</p>)}
+        </div>
+        {rest.length > 0 && (
+          <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className="mt-4 self-start font-bold text-plum underline-offset-4 hover:underline">
+            {open ? "Show less" : `Read ${m.name}'s full story →`}
+          </button>
+        )}
+      </div>
+    </article>
+  );
+}
+
 export function AboutPage() {
+  const people = CREW.filter((m) => !["Dexter", "Cooper"].includes(m.name));
+  const dogs = CREW.filter((m) => ["Dexter", "Cooper"].includes(m.name));
+  const grid = "grid items-start gap-6 [grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))]";
   return (
     <PageShell>
       <PageHero kicker="About us" title="The Heart Behind" accent="The Loyal Companion" intro={ABOUT_INTRO} />
+      <section className="mx-auto max-w-[1240px] px-6 pb-16">
+        <div className="mb-8 border-b-2 border-ink pb-4"><h2 className={h2}>Meet the Loyal Crew.</h2></div>
+        <div className={grid}>{people.map((m) => <CrewCard key={m.name} m={m} />)}</div>
+      </section>
       <section className="mx-auto max-w-[1240px] px-6 pb-20">
-        <div className="mb-4 border-b-2 border-ink pb-4"><h2 className={h2}>Meet the Loyal Crew.</h2></div>
-        {CREW.map((m, i) => (
-          <article key={m.name} className="grid items-start gap-8 border-b border-line py-12 md:grid-cols-[minmax(0,360px)_1fr]">
-            <div className={i % 2 ? "md:order-2" : ""}>
-              {m.img ? (
-                <img src={m.img} alt={m.name} className="aspect-[4/5] w-full rounded-md object-cover" />
-              ) : (
-                <div className="trail-light flex aspect-[4/5] w-full flex-col items-center justify-center rounded-md bg-plum text-white">
-                  <Paw size={72} style={{ fill: "var(--sun)" }} />
-                  <span className={`${D} mt-4 text-4xl font-extrabold`}>{m.name}</span>
-                </div>
-              )}
-            </div>
-            <div>
-              <h3 className={`m-0 ${D} text-[clamp(36px,5vw,48px)] font-extrabold leading-none tracking-[-0.03em]`}>{m.name}</h3>
-              <p className="m-0 mt-2 font-hand text-[26px] text-rust">{m.role}</p>
-              <div className="mt-4 max-w-[680px] text-[17px] text-ink-soft">
-                {m.bio.map((p) => <p key={p.slice(0, 24)} className="m-0 mb-4">{p}</p>)}
-              </div>
-            </div>
-          </article>
-        ))}
+        <div className="mb-8 border-b-2 border-ink pb-4"><h2 className={h2}>Our chief testers.</h2></div>
+        <div className={grid}>{dogs.map((m) => <CrewCard key={m.name} m={m} />)}</div>
       </section>
       <BookBand title="Come meet the crew." text="We can't wait to welcome you and your four-legged family to The Loyal Companion!" />
     </PageShell>

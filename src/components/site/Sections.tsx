@@ -1,4 +1,6 @@
+import { Link } from "@tanstack/react-router";
 import { Paw, BOOK } from "./Paw";
+import { REVIEW, MAP_EMBED } from "@/content/site";
 const B = "font-display";
 const h2 = "m-0 font-display font-extrabold tracking-[-0.03em] leading-none text-[clamp(38px,7vw,56px)]";
 const SCALLOP = "M0 40 V20" + " a40 20 0 0 1 80 0".repeat(18) + " V40 Z";
@@ -6,12 +8,12 @@ const SCALLOP = "M0 40 V20" + " a40 20 0 0 1 80 0".repeat(18) + " V40 Z";
 export function Header() {
   return (
     <header className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-between gap-4 px-6 py-[18px]">
-      <img src="/images/logo.png" alt="The Loyal Companion" className="h-[54px] w-auto" />
+      <Link to="/"><img src="/images/logo.png" alt="The Loyal Companion" className="h-[54px] w-auto" /></Link>
       <nav className="flex flex-wrap items-center gap-x-7 gap-y-3 text-[15px] font-semibold">
-        <a href="#menu" className="no-underline">Grooming</a>
-        <a href="#shop" className="no-underline">Shop &amp; Nutrition</a>
-        <a href="#crew" className="no-underline">The Crew</a>
-        <a href="#visit" className="no-underline">Visit</a>
+        <Link to="/grooming" className="no-underline" activeProps={{ className: "text-plum" }}>Grooming</Link>
+        <a href="/#shop" className="no-underline">Shop &amp; Nutrition</a>
+        <Link to="/about" className="no-underline" activeProps={{ className: "text-plum" }}>The Crew</Link>
+        <Link to="/contact" className="no-underline" activeProps={{ className: "text-plum" }}>Visit</Link>
         <a className="cta btn-plum no-underline inline-flex min-h-11 items-center gap-2 rounded-md px-[22px] py-3" href={BOOK} target="_blank" rel="noopener">Book a groom <Paw hover size={15} style={{ fill: "var(--sun)" }} /></a>
       </nav>
     </header>
@@ -75,6 +77,7 @@ export function Menu() {
           <span className="col-start-2 text-lg font-bold md:col-start-3">{p}</span>
         </div>
       ))}
+      <Link to="/grooming" className="mt-6 inline-block font-bold text-plum">See the full pampering menu, sizes &amp; spa rituals →</Link>
       <div className="mt-8 grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
         <div className="trail-light rounded-md bg-plum p-7 text-white">
           <p className={`m-0 mb-2 ${B} text-[26px] font-semibold`}>Spa rituals · $15 each</p>
@@ -121,7 +124,7 @@ export function Crew() {
       <div className="min-w-0 flex-[1_1_460px]">
         <h2 className={`${h2} mb-5`}>Meet the<br />Loyal Crew.</h2>
         <p className="m-0 mb-4 text-lg text-ink-soft">Ashley and Brett have been dog parents for over 20 years. Sam has been grooming for 13. Jordan and Hannah pamper every pup like family — and Dexter and Cooper, our Labs, test every treat.</p>
-        <a href="#crew" className="font-bold">Our story →</a>
+        <Link to="/about" className="font-bold">Meet everyone &amp; read our story →</Link>
       </div>
       <div className="grid min-w-0 flex-[1_1_460px] grid-cols-3 gap-3">
         {pics.map(([s, a]) => <img key={s} src={`/images/${s}.jpg`} alt={a} className="h-[220px] w-full rounded-md object-cover" />)}
@@ -134,7 +137,7 @@ export function Review() {
   return (
     <section className="border-y-2 border-ink px-6 py-16">
       <div className="mx-auto max-w-[900px]">
-        <p className={`m-0 mb-5 ${B} text-[clamp(24px,4vw,36px)] leading-[1.25] tracking-[-0.02em]`}>“Amazing experience! Extremely efficient, kind and intentional! Absolutely loved my experience and will be back.”</p>
+        <p className={`m-0 mb-5 ${B} text-[clamp(24px,4vw,36px)] leading-[1.25] tracking-[-0.02em]`}>“{REVIEW.text}”</p>
         <p className="m-0 font-semibold">★★★★★ Jenna M., Google</p>
       </div>
     </section>
@@ -158,7 +161,7 @@ export function Visit() {
       </div>
       <div className="flex flex-col gap-4">
         <img src="/images/storefront.jpg" alt="Storefront on Main Street" className="h-[380px] w-full rounded-md object-cover" />
-        <div className="flex h-[180px] items-center justify-center rounded-md bg-sand font-semibold text-ink-soft">Google Map</div>
+        <iframe title="Map to The Loyal Companion, 55 W Main St, Platteville" src={MAP_EMBED} loading="lazy" className="h-[220px] w-full rounded-md border-0" />
       </div>
     </section>
   );
@@ -173,7 +176,7 @@ export function Footer() {
           <a href="https://facebook.com/theloyalcompanionplatteville" target="_blank" rel="noopener">Facebook</a> ·
           <a href="https://instagram.com/theloyalcompanionplatteville" target="_blank" rel="noopener">Instagram</a> ·
           <a href="https://tiktok.com/@theloyalcompanionwi" target="_blank" rel="noopener">TikTok</a> ·
-          <a href="#">Privacy</a>
+          <Link to="/contact">Contact</Link>
         </p>
       </div>
     </footer>

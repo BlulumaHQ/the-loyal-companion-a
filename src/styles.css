@@ -30,6 +30,19 @@
  */
 
 @theme inline {
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-hand: Caveat, cursive;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-plum: var(--plum);
+  --color-sun: var(--sun);
+  --color-gold: var(--gold);
+  --color-lilac: var(--lilac);
+  --color-line: var(--line);
+  --color-sand: var(--sand);
+  --color-rust: var(--rust);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -73,6 +86,16 @@
 }
 
 :root {
+  --paper: oklch(0.982 0.008 85);
+  --ink: oklch(0.255 0.04 300);
+  --ink-soft: oklch(0.415 0.03 300);
+  --plum: oklch(0.47 0.08 298);
+  --sun: oklch(0.85 0.14 90);
+  --gold: oklch(0.78 0.14 85);
+  --lilac: oklch(0.93 0.02 305);
+  --line: oklch(0.88 0.022 305);
+  --sand: oklch(0.93 0.017 85);
+  --rust: oklch(0.53 0.13 40);
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
@@ -153,3 +176,12 @@
     color: var(--color-foreground);
   }
 }
+
+a { color: var(--ink); }
+a:hover { color: oklch(0 0 0); }
+.trail { background-image: url(/images/paw-trail-plum.svg); background-size: 440px; }
+.trail-light { background-image: url(/images/paw-trail-light.svg); background-size: 440px; }
+.cta .pw { opacity: 0; transform: translate(-6px, 6px) rotate(-25deg); transition: all .25s ease; }
+.cta:hover .pw { opacity: 1; transform: none; }
+a.btn-plum, a.btn-plum:hover { background: var(--plum); color: oklch(1 0 0); }
+a.btn-sun, a.btn-sun:hover { background: var(--sun); color: var(--ink); }
